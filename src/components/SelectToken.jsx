@@ -26,14 +26,14 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress }) => {
           {['ETH', 'BSC', 'Polygon', 'Base'].map((token, index) => (
             <button
               key={token}
-              className={`px-4 py-2 rounded-md flex items-center gap-2 ${
+              className={`px-4 py-2 rounded-md flex items-center text-sm gap-2 ${
                 selectedButton === index + 1
                   ? 'bg-black text-white font-normal border border-black'
                   : 'border border-white text-white opacity-60 font-light hover:bg-black hover:opacity-100 hover:border-black'
               }`}
               onClick={() => handleButtonClick(index + 1, token)}
             >
-              <img className="h-6" src={Assets[token]} alt={token} /> {token}
+              <img className="h-4" src={Assets[token]} alt={token} /> {token}
             </button>
           ))}
         </div>

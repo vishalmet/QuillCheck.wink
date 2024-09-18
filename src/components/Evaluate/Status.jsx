@@ -10,7 +10,7 @@ const Status = () => {
                 <p className='text-[#DDDDDD]'>Last Known Status:</p>
                 <div className="bg-[#FFFFFF]/10 h-10 w-fit rounded-[8px] p-[10px] flex items-center gap-2">
                   <img className=' h-6' src={Assets.Token} alt="" />
-                  <p>Not a Honeypot</p>
+                  <p>Not a <br />Honeypot</p>
                 </div>
               </div>
               <div className="">
