@@ -46,7 +46,7 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
               />
             )}
               {selectedToken}</span>}
-            {tokenAddress || '0X8B802513D4AA6F349B197A4EA4C26563CD6FD5B2'}
+            {tokenAddress || 'Enter Token Address'}
           </p>
         </div>
       </div>
