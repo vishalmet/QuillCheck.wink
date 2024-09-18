@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.jost {
+  font-family: "Jost", sans-serif;
+}
