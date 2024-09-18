@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import Assets from './Assets';
 
-const SelectToken = ({ onCheckClick }) => {
+const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress }) => {
   const [selectedButton, setSelectedButton] = useState(null);
+  const [inputValue, setInputValue] = useState(''); // New state for input value
 
-  const handleButtonClick = (buttonIndex) => {
+  const handleButtonClick = (buttonIndex, token) => {
     setSelectedButton(buttonIndex);
+    setSelectedToken(token); // Update the selected token in the parent
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    setTokenAddress(e.target.value); // Pass the input value to the parent
   };
 
   return (
@@ -16,7 +23,6 @@ const SelectToken = ({ onCheckClick }) => {
       <p className="text-white text-4xl text-center">Evaluate Any Token</p>
       <div className="mt-6 space-y-4">
         <div className="flex justify-center space-x-6">
-          {/* Token selection buttons */}
           {['ETH', 'BSC', 'Polygon', 'Base'].map((token, index) => (
             <button
               key={token}
@@ -25,7 +31,7 @@ const SelectToken = ({ onCheckClick }) => {
                   ? 'bg-black text-white font-normal border border-black'
                   : 'border border-white text-white opacity-60 font-light hover:bg-black hover:opacity-100 hover:border-black'
               }`}
-              onClick={() => handleButtonClick(index + 1)}
+              onClick={() => handleButtonClick(index + 1, token)}
             >
               <img className="h-6" src={Assets[token]} alt={token} /> {token}
             </button>
@@ -33,6 +39,8 @@ const SelectToken = ({ onCheckClick }) => {
         </div>
         <input
           type="text"
+          value={inputValue}
+          onChange={handleInputChange} // Handle input change
           className="bg-white w-full h-12 rounded-[5px] text-black p-4"
           placeholder="Enter token address"
         />
