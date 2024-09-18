@@ -4,7 +4,15 @@ import Status from './Evaluate/Status';
 import Report from './Evaluate/Report';
 import Info from './Evaluate/Info';
 
-const EvaluateReport = ({ onBackClick }) => {
+const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
+  // Map tokens to corresponding asset images
+  const tokenImages = {
+    ETH: Assets.ETH,    
+    BSC: Assets.BSC,    
+    Polygon: Assets.Polygon, 
+    Base: Assets.Base,
+  };
+
   return (
     <div
       className="bg-[#18162099]/60 rounded-[10px] backdrop-filter h-full backdrop-blur-sm w-[550px] mx-auto jost text-white"
@@ -17,32 +25,42 @@ const EvaluateReport = ({ onBackClick }) => {
             <p className="text-xl text-center">Higher IMO</p>
             <p className=''>(HIGHER)</p>
           </div>
-          {/* <div className="flex rounded-[20px]">
+          <div className="flex rounded-[20px]">
             <button
               onClick={onBackClick}
               className="bg-[#007AFF] hover:bg-[#007AFF]/70 rounded-[5px] text-white p-2 px-6 text-base border-y border-y-[#86AFFF]"
             >
               Back
             </button>
-          </div> */}
+          </div>
         </div>
         <div className="">
-          <p className='text-sm text-white'>0X8B802513D4AA6F349B197A4EA4C26563CD6FD5B2</p>
+          {/* Display token image, token name, and entered address */}
+          <p className='text-lg text-white flex items-center'>
+            {selectedToken && <span className="mr-2 bg-black p-[6px] px-4 rounded-[5px] text-sm flex gap-1 items-center">
+              {selectedToken && tokenImages[selectedToken] && (
+              <img
+                src={tokenImages[selectedToken]}
+                alt={selectedToken}
+                className="h-4"
+              />
+            )}
+              {selectedToken}</span>}
+            {tokenAddress || '0X8B802513D4AA6F349B197A4EA4C26563CD6FD5B2'}
+          </p>
         </div>
       </div>
 
       <div className="p-[20px]">
         <div className="flex items-center justify-between h-full">
           <Status />
-
           <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
-
           <Report />
         </div>
 
-          <div className="border-b-2 border-white/10 my-5 self-stretch"></div>
-          
-          <Info />
+        <div className="border-b-2 border-white/10 my-5 self-stretch"></div>
+
+        <Info />
       </div>
     </div>
   );
