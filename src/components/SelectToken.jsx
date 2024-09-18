@@ -17,7 +17,7 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress }) => {
 
   return (
     <div
-      className="bg-[#18162099]/60 rounded-[10px] backdrop-filter backdrop-blur-sm w-[550px] mx-auto p-[30px] jost"
+      className="bg-[#18162099]/60 rounded-[10px] backdrop-filter backdrop-blur-sm w-[500px] mx-auto p-[30px] jost"
       style={{ boxShadow: '4px 4px 12px rgba(0, 0, 0, 0.5)' }}
     >
       <p className="text-white text-4xl text-center">Evaluate Any Token</p>
