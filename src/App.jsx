@@ -18,7 +18,7 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen bg-cover bg-center bricolage-font pb-6 bg-custom-bg jost">
+    <div className="h-screen bg-cover bg-center bricolage-font pb-6 bg-custom-bg jost flex justify-center items-center">
       <div className="p-3 space-y-5">
         <img className="w-[200px] h-[40px] mx-auto" src={Assets.QuillCheckLogo} alt="Quill Check Logo" />
 
@@ -33,7 +33,7 @@ const App = () => {
               transition={{ duration: 0.6 }}
             >
               {/* Pass setSelectedToken and setTokenAddress to update both in parent */}
-              <SelectToken onCheckClick={handleCheckClick} setSelectedToken={setSelectedToken} setTokenAddress={setTokenAddress} />
+              <SelectToken className="" onCheckClick={handleCheckClick} setSelectedToken={setSelectedToken} setTokenAddress={setTokenAddress} />
             </motion.div>
           ) : (
             <motion.div
