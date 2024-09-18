@@ -25,18 +25,18 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
             <p className="text-lg text-center">Higher IMO</p>
             <p className='text-xs'>(HIGHER)</p>
           </div>
-          {/* <div className="flex rounded-[20px]">
+          <div className="flex rounded-[20px]">
             <button
               onClick={onBackClick}
               className="bg-[#007AFF] hover:bg-[#007AFF]/70 rounded-[5px] text-white p-2 px-6 text-base border-y border-y-[#86AFFF]"
             >
               Back
             </button>
-          </div> */}
+          </div>
         </div>
         <div className="">
           {/* Display token image, token name, and entered address */}
-          <p className='text-sm text-white flex items-center'>
+          <p className='text-xs text-white flex items-center'>
             {selectedToken && <span className="mr-2 bg-black p-[6px] px-4 rounded-[5px] text-sm flex gap-1 items-center">
               {selectedToken && tokenImages[selectedToken] && (
               <img
