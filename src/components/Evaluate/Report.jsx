@@ -22,7 +22,7 @@ const Report = () => {
                 <div className="flex justify-between space-x-9 items-center">
                     <div className=" flex items-center gap-2">
                         <img className=' h-4' src={Assets.Exclamatory} alt="" />
-                        <p className=' '>Exclamatory:</p>
+                        <p className=' '>Medium:</p>
                     </div>
                     <p>0</p>
                 </div>
