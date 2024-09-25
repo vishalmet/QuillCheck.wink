@@ -10,24 +10,24 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Function to fetch token information
   const fetchTokenInfo = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const res = await axios.get(
         `https://check-api.quillai.network/api/v1/tokens/information/${tokenAddress}?chainId=1`,
         {
           headers: {
-            'x-api-key': '6muNpTyDvR9hGJBuG1muh5VlKE74V6Ik4cWNBmg0', // Replace with your actual API key
+            'x-api-key': '6muNpTyDvR9hGJBuG1muh5VlKE74V6Ik4cWNBmg0',
           },
         }
       );
       console.log("res", res.data);
-      setValueFetch(res.data); // Store the fetched data
+      
+      setValueFetch(res.data);
     } catch (error) {
       setError('Failed to fetch token information');
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -37,7 +37,6 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
     }
   }, [tokenAddress]);
 
-  // Map tokens to corresponding asset images
   const tokenImages = {
     ETH: Assets.ETH,
     BSC: Assets.BSC,
@@ -46,12 +45,21 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
 
-  // Extract values from the API response and make sure it's correctly parsed
-  const totalScore = parseFloat(valueFetch?.tokenScore?.totalScorePercentage) || 0;
-  const codeScore = valueFetch?.tokenScore?.codeScorePercentage || '0';
-  const marketScore = valueFetch?.tokenScore?.marketScorePercentage || '0';
+  const totalScore = parseFloat(valueFetch?.tokenScore?.totalScore?.percent);
+  const tokenCreationDate = new Date(valueFetch?.tokenInformation?.tokenCreationDate); // Use the correct field for the creation date
+  const currentDate = new Date();
+
+  let tokenAge = 'Unknown';
+  if (!isNaN(tokenCreationDate)) {
+    const ageInMilliseconds = currentDate - tokenCreationDate;
+    const ageInYears = ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+    tokenAge = `${Math.floor(ageInYears)} years`;
+  }
+
+  const holdersCount = parseFloat(valueFetch?.marketChecks?.holdersChecks?.holdersCount?.number);
+  const currentLiquidity = parseFloat(valueFetch?.tokenInformation?.marketData?.currentPriceUsd);
+  const lpHolders = parseFloat(valueFetch?.marketChecks?.liquidityChecks?.aggregatedInformation?.lpHolderCount?.number);
 
   return (
     <div
@@ -74,39 +82,27 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
             </button>
           </div>
         </div>
-        <div className="">
-          {/* Display token image, token name, and entered address */}
-          <p className='text-xs text-white flex items-center'>
-            {selectedToken && <span className="mr-2 bg-black p-[6px] px-4 rounded-[5px] text-sm flex gap-1 items-center">
-              {selectedToken && tokenImages[selectedToken] && (
-                <img
-                  src={tokenImages[selectedToken]}
-                  alt={selectedToken}
-                  className="h-3"
-                />
-              )}
-              {selectedToken}</span>}
-            {tokenAddress || 'Enter Token Address'}
-          </p>
-        </div>
+        <p className='text-xs text-white flex items-center'>
+          {selectedToken && <span className="mr-2 bg-black p-[6px] px-4 rounded-[5px] text-sm flex gap-1 items-center">
+            {selectedToken && tokenImages[selectedToken] && (
+              <img src={tokenImages[selectedToken]} alt={selectedToken} className="h-3" />
+            )}
+            {selectedToken}</span>}
+          {tokenAddress || 'Enter Token Address'}
+        </p>
       </div>
 
       <div className="p-[20px]">
         <div className="flex items-center justify-between h-full">
-          {/* Pass totalScore to the Status component */}
-          <Status totalScore={totalScore} />
-
+          <Status totalScore={totalScore} tokenAge={tokenAge} />
           <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
-
-          {/* Pass codeScore and marketScore to the Report component */}
-          <Report codeScore={codeScore} marketScore={marketScore} />
+          <Report />
         </div>
 
         <div className="border-b-2 border-white/10 my-5 self-stretch"></div>
 
-        <Info />
+        <Info holdersCount={holdersCount} currentLiquidity={currentLiquidity} lpHolders={lpHolders} />
       </div>
-
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import Assets from '../Assets';
 
-const Status = ({ totalScore }) => {
+const Status = ({ totalScore, tokenAge }) => {
   return (
     <div>
       <div className="flex gap-4 text-sm">
@@ -15,7 +15,7 @@ const Status = ({ totalScore }) => {
           </div>
           <div className="">
             <p className='text-[#DDDDDD]'>Token Age:</p>
-            <p className=''>6 Days</p>
+            <p className=''>{tokenAge}</p>
           </div>
         </div>
 
