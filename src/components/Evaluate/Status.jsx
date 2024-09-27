@@ -13,23 +13,22 @@ const Status = ({ totalScore, tokenAge }) => {
               <p>Not a <br />Honeypot</p>
             </div>
           </div>
-          <div className="">
+          <div className="w-fit">
             <p className='text-[#DDDDDD]'>Token Age:</p>
-            <p className=''>{tokenAge}</p>
+            <p className='text-center'>{tokenAge}</p>
           </div>
         </div>
 
         <div className="space-y-3">
-          <div className="">
+          <div className="w-fit">
             <p className='text-[#DDDDDD]'>Overall Score:</p>
             <div className="bg-[#B40D00] h-10 w-full rounded-[8px] flex justify-center items-center mx-auto">
-              {/* Display the totalScore prop */}
               <p className='text-base font-semibold'>{totalScore}%</p>
             </div>
           </div>
-          <div className="">
+          <div className="w-fit">
             <p className='text-[#DDDDDD]'>Ownership:</p>
-            <img className='h-4' src={Assets.X} alt="X" />
+            <img className='h-4 mx-auto' src={Assets.X} alt="X" />
           </div>
         </div>
       </div>
