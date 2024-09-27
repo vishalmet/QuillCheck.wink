@@ -1,7 +1,7 @@
 import React from 'react'
 import Assets from '../Assets'
 
-const Info = ({ holdersCount, currentLiquidity, lpHolders }) => {
+const Info = ({ holdersCount, currentLiquidity, lpHolders, buyTax, sellTax, transferTax }) => {
     return (
         <div className="text-sm space-y-4">
             <div className=" flex justify-between">
@@ -45,7 +45,7 @@ const Info = ({ holdersCount, currentLiquidity, lpHolders }) => {
                     <p>Buy Tax</p>
                     <div className=" flex justify-center gap-1 items-center">
                         <img className='h-4' src={Assets.Shield} alt="" />
-                        <p className=' font-semibold text-md'>0%</p>
+                        <p className=' font-semibold text-md'>{buyTax}%</p>
                     </div>
                 </div>
                 <div className="border-l-2 border-white/10 mx-10 self-stretch"></div>
@@ -53,7 +53,7 @@ const Info = ({ holdersCount, currentLiquidity, lpHolders }) => {
                     <p>Sell Tax</p>
                     <div className=" flex justify-center gap-1 items-center">
                         <img className='h-4' src={Assets.Shield} alt="" />
-                        <p className=' font-semibold text-md'>0%</p>
+                        <p className=' font-semibold text-md'>{sellTax}%</p>
                     </div>
                 </div>
                 <div className="border-l-2 border-white/10 mx-10 self-stretch"></div>
@@ -61,7 +61,7 @@ const Info = ({ holdersCount, currentLiquidity, lpHolders }) => {
                     <p>Transfer Tax</p>
                     <div className=" flex justify-center gap-1 items-center">
                         <img className='h-4' src={Assets.Shield} alt="" />
-                        <p className=' font-semibold text-md'>0%</p>
+                        <p className=' font-semibold text-md'>{transferTax}%</p>
                     </div>
                 </div>
             </div>
