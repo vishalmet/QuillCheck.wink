@@ -21,8 +21,6 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
           },
         }
       );
-      console.log("res", res.data);
-      
       setValueFetch(res.data);
     } catch (error) {
       setError('Failed to fetch token information');
@@ -47,8 +45,19 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
   if (loading) return <p>Loading...</p>;
 
   const totalScore = parseFloat(valueFetch?.tokenScore?.totalScore?.percent);
-  const tokenCreationDate = new Date(valueFetch?.tokenInformation?.tokenCreationDate); // Use the correct field for the creation date
+  const tokenCreationDate = new Date(valueFetch?.tokenInformation?.tokenCreationDate);
   const currentDate = new Date();
+
+  let buyTax = 0;
+  let sellTax = 0;
+  let transferTax = 0;
+
+  if (valueFetch?.honeypotDetails?.length > 0) {
+    const details = valueFetch.honeypotDetails[0];
+    buyTax = parseFloat(details?.buyTax?.number || "0");
+    sellTax = parseFloat(details?.sellTax?.number || "0");
+    transferTax = parseFloat(details?.transferTax?.number || "0");
+  }
 
   let tokenAge = 'Unknown';
   if (!isNaN(tokenCreationDate)) {
@@ -60,6 +69,19 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
   const holdersCount = parseFloat(valueFetch?.marketChecks?.holdersChecks?.holdersCount?.number);
   const currentLiquidity = parseFloat(valueFetch?.tokenInformation?.marketData?.currentPriceUsd);
   const lpHolders = parseFloat(valueFetch?.marketChecks?.liquidityChecks?.aggregatedInformation?.lpHolderCount?.number);
+
+  const critical = valueFetch?.riskCategories?.critical || 0;
+  const risky = valueFetch?.riskCategories?.risky || 0;
+  const medium = valueFetch?.riskCategories?.medium || 0;
+  const neutral = valueFetch?.riskCategories?.neutral || 0;
+
+  // Utility function to format numbers
+  const formatNumber = (num) => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(0) + 'K'; 
+    }
+    return num.toString();
+  };
 
   return (
     <div
@@ -96,12 +118,12 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
         <div className="flex items-center justify-between h-full">
           <Status totalScore={totalScore} tokenAge={tokenAge} />
           <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
-          <Report />
+          <Report critical={critical} risky={risky} medium={medium} neutral={neutral} />
         </div>
 
         <div className="border-b-2 border-white/10 my-5 self-stretch"></div>
 
-        <Info holdersCount={holdersCount} currentLiquidity={currentLiquidity} lpHolders={lpHolders} />
+        <Info holdersCount={formatNumber(holdersCount)} currentLiquidity={currentLiquidity} lpHolders={lpHolders} buyTax={buyTax} sellTax={sellTax} transferTax={transferTax} />
       </div>
     </div>
   );
