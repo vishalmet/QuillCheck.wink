@@ -8,6 +8,15 @@ const App = () => {
   const [showReport, setShowReport] = useState(false); // Toggle between SelectToken and EvaluateReport
   const [selectedToken, setSelectedToken] = useState(''); // State to store selected token
   const [tokenAddress, setTokenAddress] = useState(''); // State to store entered token address
+  const [chainId, setChainId] = useState(null); // State to store chainId
+
+  // Chain ID map for different networks
+  const tokenChainMap = {
+    ETH: 1,
+    BSC: 56,
+    Polygon: 137,
+    Base: 8453,
+  };
 
   const handleCheckClick = () => {
     setShowReport(true); // Show EvaluateReport when Check is clicked
@@ -32,8 +41,13 @@ const App = () => {
               exit={{ opacity: 0, rotateY: -180 }}
               transition={{ duration: 0.6 }}
             >
-              {/* Pass setSelectedToken and setTokenAddress to update both in parent */}
-              <SelectToken className="" onCheckClick={handleCheckClick} setSelectedToken={setSelectedToken} setTokenAddress={setTokenAddress} />
+              {/* Pass setSelectedToken, setTokenAddress, and setChainId */}
+              <SelectToken
+                onCheckClick={handleCheckClick}
+                setSelectedToken={setSelectedToken}
+                setTokenAddress={setTokenAddress}
+                setChainId={setChainId} // Pass the setChainId handler
+              />
             </motion.div>
           ) : (
             <motion.div
@@ -43,8 +57,13 @@ const App = () => {
               exit={{ opacity: 0, rotateY: -180 }}
               transition={{ duration: 0.6 }}
             >
-              {/* Pass the selected token and token address to EvaluateReport */}
-              <EvaluateReport onBackClick={handleBackClick} selectedToken={selectedToken} tokenAddress={tokenAddress} />
+              {/* Pass the selected token, token address, and chainId to EvaluateReport */}
+              <EvaluateReport
+                onBackClick={handleBackClick}
+                selectedToken={selectedToken}
+                tokenAddress={tokenAddress}
+                chainId={chainId} // Pass chainId to the report
+              />
             </motion.div>
           )}
         </AnimatePresence>

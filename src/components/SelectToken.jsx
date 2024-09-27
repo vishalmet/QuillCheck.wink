@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import Assets from './Assets';
 
-const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress }) => {
+const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChainId }) => {
   const [selectedButton, setSelectedButton] = useState(null);
-  const [inputValue, setInputValue] = useState(''); // New state for input value
+  const [inputValue, setInputValue] = useState('');
+
+  const tokenChainMap = {
+    ETH: 1,
+    BSC: 56,
+    Polygon: 137,
+    Base: 8453,
+  };
 
   const handleButtonClick = (buttonIndex, token) => {
     setSelectedButton(buttonIndex);
-    setSelectedToken(token); // Update the selected token in the parent
+    setSelectedToken(token);
+    setChainId(tokenChainMap[token]); // Set the chainId based on the selected token
   };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
-    setTokenAddress(e.target.value); // Pass the input value to the parent
+    setTokenAddress(e.target.value); // Update token address
   };
 
   return (
@@ -40,7 +48,7 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress }) => {
         <input
           type="text"
           value={inputValue}
-          onChange={handleInputChange} // Handle input change
+          onChange={handleInputChange}
           className="bg-white w-full h-12 rounded-[5px] text-black p-4"
           placeholder="Enter token address"
         />

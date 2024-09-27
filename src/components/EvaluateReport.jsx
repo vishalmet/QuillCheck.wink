@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'; // Ensure to import the CSS for Skeleton
 import Assets from './Assets';
 import Status from './Evaluate/Status';
 import Report from './Evaluate/Report';
 import Info from './Evaluate/Info';
 import axios from 'axios';
 
-const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
+const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress, chainId }) => {
   const [valueFetch, setValueFetch] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,7 +16,7 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://check-api.quillai.network/api/v1/tokens/information/${tokenAddress}?chainId=1`,
+        `https://check-api.quillai.network/api/v1/tokens/information/${tokenAddress}?chainId=${chainId}`, 
         {
           headers: {
             'x-api-key': '6muNpTyDvR9hGJBuG1muh5VlKE74V6Ik4cWNBmg0',
@@ -33,7 +35,7 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
     if (tokenAddress) {
       fetchTokenInfo();
     }
-  }, [tokenAddress]);
+  }, [tokenAddress, chainId]);
 
   const tokenImages = {
     ETH: Assets.ETH,
@@ -41,8 +43,6 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
     Polygon: Assets.Polygon,
     Base: Assets.Base,
   };
-
-  if (loading) return <p>Loading...</p>;
 
   const totalScore = parseFloat(valueFetch?.tokenScore?.totalScore?.percent);
   const tokenCreationDate = new Date(valueFetch?.tokenInformation?.tokenCreationDate);
@@ -75,7 +75,6 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
   const medium = valueFetch?.riskCategories?.medium || 0;
   const neutral = valueFetch?.riskCategories?.neutral || 0;
 
-  // Utility function to format numbers
   const formatNumber = (num) => {
     if (num >= 1000) {
       return (num / 1000).toFixed(0) + 'K'; 
@@ -91,39 +90,86 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress }) => {
       <div className="bg-[#181B2E] rounded-t-[10px] p-[15px] px-[20px]">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img className='h-5' src={Assets.Avatar} alt="" />
-            <p className="text-lg text-center">{valueFetch?.tokenInformation.tokenName || 'Token Name'}</p>
-            <p className='text-xs'>({valueFetch?.tokenInformation.tokenSymbol || 'Symbol'})</p>
+            {/* Skeleton for Avatar and Token Name */}
+            {loading ? (
+              <>
+                <Skeleton circle={true} height={20} width={20} />
+                <Skeleton width={100} height={20} />
+                <Skeleton width={50} height={15} />
+              </>
+            ) : (
+              <>
+                <img className='h-5' src={Assets.Avatar} alt="Avatar" />
+                <p className="text-lg text-center">{valueFetch?.tokenInformation.tokenName || 'Token Name'}</p>
+                <p className='text-xs'>({valueFetch?.tokenInformation.tokenSymbol || 'Symbol'})</p>
+              </>
+            )}
           </div>
+
           <div className="flex rounded-[20px]">
-            <button
-              onClick={onBackClick}
-              className="bg-[#007AFF] hover:bg-[#007AFF]/70 rounded-[5px] text-white p-1 px-6 text-base border-y border-y-[#86AFFF]"
-            >
-              Back
-            </button>
+            {loading ? (
+              <Skeleton height={30} width={80} />
+            ) : (
+              <button
+                onClick={onBackClick}
+                className="bg-[#007AFF] hover:bg-[#007AFF]/70 rounded-[5px] text-white p-1 px-6 text-base border-y border-y-[#86AFFF]"
+              >
+                Back
+              </button>
+            )}
           </div>
         </div>
+
+        {/* Token Address */}
         <p className='text-xs text-white flex items-center'>
-          {selectedToken && <span className="mr-2 bg-black p-[6px] px-4 rounded-[5px] text-sm flex gap-1 items-center">
-            {selectedToken && tokenImages[selectedToken] && (
-              <img src={tokenImages[selectedToken]} alt={selectedToken} className="h-3" />
-            )}
-            {selectedToken}</span>}
-          {tokenAddress || 'Enter Token Address'}
+          {loading ? (
+            <Skeleton width={250} />
+          ) : (
+            selectedToken && (
+              <span className="mr-2 bg-black p-[6px] px-4 rounded-[5px] text-sm flex gap-1 items-center">
+                {tokenImages[selectedToken] && (
+                  <img src={tokenImages[selectedToken]} alt={selectedToken} className="h-3" />
+                )}
+                {selectedToken}
+              </span>
+            )
+          )}
+          {loading ? <Skeleton width={200} /> : (tokenAddress || 'Enter Token Address')}
         </p>
       </div>
 
       <div className="p-[20px]">
         <div className="flex items-center justify-between h-full">
-          <Status totalScore={totalScore} tokenAge={tokenAge} />
-          <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
-          <Report critical={critical} risky={risky} medium={medium} neutral={neutral} />
+          {/* Status and Report */}
+          {loading ? (
+            <>
+              <Skeleton width={100} height={100} />
+              <Skeleton width={200} height={100} />
+            </>
+          ) : (
+            <>
+              <Status totalScore={totalScore} tokenAge={tokenAge} />
+              <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
+              <Report critical={critical} risky={risky} medium={medium} neutral={neutral} />
+            </>
+          )}
         </div>
 
         <div className="border-b-2 border-white/10 my-5 self-stretch"></div>
 
-        <Info holdersCount={formatNumber(holdersCount)} currentLiquidity={currentLiquidity} lpHolders={lpHolders} buyTax={buyTax} sellTax={sellTax} transferTax={transferTax} />
+        {/* Info Section */}
+        {loading ? (
+          <Skeleton width={400} height={60} />
+        ) : (
+          <Info
+            holdersCount={formatNumber(holdersCount)}
+            currentLiquidity={currentLiquidity}
+            lpHolders={lpHolders}
+            buyTax={buyTax}
+            sellTax={sellTax}
+            transferTax={transferTax}
+          />
+        )}
       </div>
     </div>
   );
