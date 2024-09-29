@@ -16,7 +16,7 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress, chainId }) =
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://check-api.quillai.network/api/v1/tokens/information/${tokenAddress}?chainId=${chainId}`, 
+        `https://check-api.quillai.network/api/v1/tokens/information/${tokenAddress}?chainId=${chainId}`,
         {
           headers: {
             'x-api-key': '6muNpTyDvR9hGJBuG1muh5VlKE74V6Ik4cWNBmg0',
@@ -24,6 +24,9 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress, chainId }) =
         }
       );
       setValueFetch(res.data);
+      console.log('====================================');
+      console.log(res.data);
+      console.log('====================================');
     } catch (error) {
       setError('Failed to fetch token information');
     } finally {
@@ -66,6 +69,13 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress, chainId }) =
     tokenAge = `${Math.floor(ageInYears)} years`;
   }
 
+  const criticalPoint = valueFetch?.tokenInformation.totalChecksInformation?.aggregatedCount.find(item => item.name === "Critical")?.count || 0;
+  const riskyPoint = valueFetch?.tokenInformation.totalChecksInformation?.aggregatedCount.find(item => item.name === "RISKY")?.count || 0;
+  const mediumPoint = valueFetch?.tokenInformation.totalChecksInformation?.aggregatedCount.find(item => item.name === "Medium Risk")?.count || 0;
+  const neutralPoint = valueFetch?.tokenInformation.totalChecksInformation?.aggregatedCount.find(item => item.name === "Neutral")?.count || 0;
+  
+  console.log(criticalPoint, riskyPoint, mediumPoint, neutralPoint);
+  
   const holdersCount = parseFloat(valueFetch?.marketChecks?.holdersChecks?.holdersCount?.number);
   const currentLiquidity = parseFloat(valueFetch?.tokenInformation?.marketData?.currentPriceUsd);
   const lpHolders = parseFloat(valueFetch?.marketChecks?.liquidityChecks?.aggregatedInformation?.lpHolderCount?.number);
@@ -77,10 +87,13 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress, chainId }) =
 
   const formatNumber = (num) => {
     if (num >= 1000) {
-      return (num / 1000).toFixed(0) + 'K'; 
+      return (num / 1000).toFixed(0) + 'K';
     }
     return num.toString();
   };
+
+  // Honeypot status message
+  const honeypotStatus = valueFetch?.honeypotDetails?.isTokenHoneypot === 1 ? "Honeypot" : "Not a Honeypot";
 
   return (
     <div
@@ -148,7 +161,7 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress, chainId }) =
             </>
           ) : (
             <>
-              <Status totalScore={totalScore} tokenAge={tokenAge} />
+              <Status totalScore={totalScore} tokenAge={tokenAge} honeypotStatus={honeypotStatus}/>
               <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
               <Report critical={critical} risky={risky} medium={medium} neutral={neutral} />
             </>
@@ -170,6 +183,11 @@ const EvaluateReport = ({ onBackClick, selectedToken, tokenAddress, chainId }) =
             transferTax={transferTax}
           />
         )}
+
+        {/* Honeypot Status Display */}
+        <div className="text-center text-lg mt-4">
+          {loading ? <Skeleton width={200} height={30} /> : <p>{honeypotStatus}</p>}
+        </div>
       </div>
     </div>
   );

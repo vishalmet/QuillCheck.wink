@@ -1,7 +1,7 @@
 import React from 'react';
 import Assets from '../Assets';
 
-const Status = ({ totalScore, tokenAge }) => {
+const Status = ({ totalScore, tokenAge, honeypotStatus }) => {
   return (
     <div>
       <div className="flex gap-4 text-sm">
@@ -10,7 +10,7 @@ const Status = ({ totalScore, tokenAge }) => {
             <p className='text-[#DDDDDD]'>Last Known Status:</p>
             <div className="bg-[#FFFFFF]/10 h-10 w-fit rounded-[8px] p-[10px] flex items-center gap-2">
               <img className=' h-6' src={Assets.Token} alt="" />
-              <p>Not a <br />Honeypot</p>
+              <p>{honeypotStatus}</p>
             </div>
           </div>
           <div className="w-fit">
