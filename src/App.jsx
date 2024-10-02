@@ -9,7 +9,7 @@ const App = () => {
   const [selectedToken, setSelectedToken] = useState(''); // State to store selected token
   const [tokenAddress, setTokenAddress] = useState(''); // State to store entered token address
   const [chainId, setChainId] = useState(null); // State to store chainId
-
+const [empty, setEmpty] = useState(false)
   // Chain ID map for different networks
   const tokenChainMap = {
     ETH: 1,
@@ -19,6 +19,10 @@ const App = () => {
   };
 
   const handleCheckClick = () => {
+    if(tokenAddress === ''){
+setEmpty(true)
+return;
+    }
     setShowReport(true); // Show EvaluateReport when Check is clicked
   };
 
@@ -47,6 +51,8 @@ const App = () => {
                 setSelectedToken={setSelectedToken}
                 setTokenAddress={setTokenAddress}
                 setChainId={setChainId} // Pass the setChainId handler
+                empty={empty}
+                setempty={setEmpty}
               />
             </motion.div>
           ) : (

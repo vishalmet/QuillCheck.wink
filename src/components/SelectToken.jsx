@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Assets from './Assets';
 
-const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChainId }) => {
+const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChainId, empty, setempty }) => {
   const [selectedButton, setSelectedButton] = useState(null);
   const [inputValue, setInputValue] = useState('');
 
@@ -21,6 +21,7 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChain
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
     setTokenAddress(e.target.value); // Update token address
+    setempty(false)
   };
 
   return (
@@ -52,6 +53,7 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChain
           className="bg-white w-full h-12 rounded-[5px] text-black p-4"
           placeholder="Enter token address"
         />
+        {empty && <div className='flex justify-center items-center text-red-500 '> Enter Valid Token address </div>}
         <div className="flex justify-end rounded-[20px]">
           <button
             onClick={onCheckClick}
