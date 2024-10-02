@@ -69,9 +69,13 @@ const App = () => {
         </AnimatePresence>
 
         <p className="flex justify-center text-white text-lg font-light">
-          Powered by <img className="h-5 pl-2" src={Assets.QuillAI} alt="QuillAI" />
+          <img className="h-5 pl-2" src={Assets.QuillAI} alt="QuillAI" />
         </p>
+        <div className='flex justify-center items-center text-white'>
+      Powered by Winks.fun
       </div>
+      </div>
+      
     </div>
   );
 };
