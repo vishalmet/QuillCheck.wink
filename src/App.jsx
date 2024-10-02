@@ -9,8 +9,8 @@ const App = () => {
   const [selectedToken, setSelectedToken] = useState(''); // State to store selected token
   const [tokenAddress, setTokenAddress] = useState(''); // State to store entered token address
   const [chainId, setChainId] = useState(null); // State to store chainId
-const [empty, setEmpty] = useState(false)
-const [buttonclick, setButtonclick] = useState(false)
+  const [empty, setEmpty] = useState(false)
+  const [buttonclick, setButtonclick] = useState(false)
   // Chain ID map for different networks
   const tokenChainMap = {
     ETH: 1,
@@ -20,12 +20,12 @@ const [buttonclick, setButtonclick] = useState(false)
   };
 
   const handleCheckClick = () => {
-    if(tokenAddress === ''){
-setEmpty(true)
-return;
+    if (tokenAddress === '') {
+      setEmpty(true)
+      return;
     }
 
-    if(selectedToken === ''){
+    if (selectedToken === '') {
       setButtonclick(true)
       return
     }
@@ -86,10 +86,10 @@ return;
           <img className="h-5 pl-2" src={Assets.QuillAI} alt="QuillAI" />
         </p>
         <div className='flex justify-center items-center text-white'>
-      Powered by Winks.fun
+          Powered by Winks.fun
+        </div>
       </div>
-      </div>
-      
+
     </div>
   );
 };
