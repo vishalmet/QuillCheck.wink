@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Assets from './Assets';
 
-const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChainId, empty, setempty }) => {
+const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChainId, empty, setempty , buttonclick , setButtonclick }) => {
   const [selectedButton, setSelectedButton] = useState(null);
   const [inputValue, setInputValue] = useState('');
 
@@ -16,6 +16,7 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChain
     setSelectedButton(buttonIndex);
     setSelectedToken(token);
     setChainId(tokenChainMap[token]); // Set the chainId based on the selected token
+    setButtonclick(false)
   };
 
   const handleInputChange = (e) => {
@@ -23,6 +24,8 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChain
     setTokenAddress(e.target.value); // Update token address
     setempty(false)
   };
+
+
 
   return (
     <div
@@ -54,9 +57,10 @@ const SelectToken = ({ onCheckClick, setSelectedToken, setTokenAddress, setChain
           placeholder="Enter token address"
         />
         {empty && <div className='flex justify-center items-center text-red-500 '> Enter Valid Token address </div>}
+        {buttonclick && <div className='flex justify-center items-center text-red-500 '> Select the chain </div>}
         <div className="flex justify-end rounded-[20px]">
           <button
-            onClick={onCheckClick}
+            onClick={    onCheckClick}
             className="bg-[#007AFF] hover:bg-[#007AFF]/70 rounded-[5px] text-white p-2 px-6 ml-auto text-xl border-y border-y-[#86AFFF]"
           >
             Check
