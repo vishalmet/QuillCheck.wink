@@ -20,7 +20,7 @@ const [buttonclick, setButtonclick] = useState(false)
   };
 
   const handleCheckClick = () => {
-    if(tokenAddress === ''){
+    if(tokenAddress.length !== 42){
 setEmpty(true)
 return;
     }

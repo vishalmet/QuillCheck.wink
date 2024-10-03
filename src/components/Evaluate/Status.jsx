@@ -1,7 +1,19 @@
 import React from 'react';
 import Assets from '../Assets';
 
-const Status = ({ totalScore, tokenAge, honeypotStatus }) => {
+
+
+const Status = ({ totalScore, tokenAge, honeypotStatus ,owner}) => {
+  const handleCopy = () => {
+    if (owner) {
+      navigator.clipboard.writeText(owner).then(() => {
+        // alert('Address copied to clipboard!'); // Optional: you can show a message
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+  
+  }
   return (
     <div>
       <div className="flex gap-4 text-sm">
@@ -15,7 +27,7 @@ const Status = ({ totalScore, tokenAge, honeypotStatus }) => {
           </div>
           <div className="w-fit">
             <p className='text-[#DDDDDD]'>Token Age:</p>
-            <p className='text-center'>{tokenAge}</p>
+            <p className='text-center'>{tokenAge} Years</p>
           </div>
         </div>
 
@@ -26,9 +38,11 @@ const Status = ({ totalScore, tokenAge, honeypotStatus }) => {
               <p className='text-base font-semibold'>{totalScore}%</p>
             </div>
           </div>
-          <div className="w-fit">
-            <p className='text-[#DDDDDD]'>Ownership:</p>
-            <img className='h-4 mx-auto' src={Assets.X} alt="X" />
+          <div className="w-fit cursor-pointer" onClick={handleCopy}>
+            <p className='text-[#DDDDDD] ' >Ownership:</p>
+            {/* {owner.slice(0,5)} */}
+            { owner !== '' && owner.slice(0,5)}    { owner !== '' && "..."}     { owner !== '' && owner.slice(-5)} 
+         {owner === '' &&    <img className='h-4 mx-auto' src={Assets.X} alt="X" />}
           </div>
         </div>
       </div>

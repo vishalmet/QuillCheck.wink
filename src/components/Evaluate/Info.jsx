@@ -1,7 +1,7 @@
 import React from 'react'
 import Assets from '../Assets'
 
-const Info = ({ holdersCount, currentLiquidity, lpHolders, buyTax, sellTax, transferTax }) => {
+const Info = ({ holdersCount, currentLiquidity, lpHolders, buyTax, sellTax, transferTax , pairs}) => {
     return (
         <div className="text-sm space-y-4">
             <div className=" flex justify-between">
@@ -14,7 +14,7 @@ const Info = ({ holdersCount, currentLiquidity, lpHolders, buyTax, sellTax, tran
                             </p>
                     </div>
                 </div>
-                <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
+                <div className="border-l-2 border-white/10 mx-2 self-stretch"></div>
                 <div className="">
                     <p>Current Liquidity</p>
                     <div className=" flex justify-center gap-1 items-center">
@@ -32,10 +32,10 @@ const Info = ({ holdersCount, currentLiquidity, lpHolders, buyTax, sellTax, tran
                 </div>
                 <div className="border-l-2 border-white/10 mx-5 self-stretch"></div>
                 <div className="">
-                    <p>Holders</p>
+                    <p>Trading Pairs</p>
                     <div className=" flex justify-center gap-1 items-center">
                         <img className='h-4' src={Assets.Caution} alt="" />
-                        <p className=' font-semibold text-md'>1</p>
+                        <p className=' font-semibold text-md'>{pairs}</p>
                     </div>
                 </div>
             </div>
